@@ -19,13 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'your-email@gmail.com';
-        $mail->Password = 'your-password';
+        $mail->Username = '=vivekmuthal07@gmail.com';
+        $mail->Password = '123456';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
         $mail->setFrom($email, $name);
-        $mail->addAddress('your-email@gmail.com');
+        $mail->addAddress('vivekmuthal07@gmail.com');
         $mail->Subject = $subject;
         $mail->Body = "Name: $name\nEmail: $email\nNumber: $number\nMessage: $message\nOption: $options\nSubscribe: $subscribe\nPreferred Contact Method: $contact_method";
 
