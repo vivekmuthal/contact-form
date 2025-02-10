@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'contact-mail-form.netlify.app/';
         $mail->SMTPAuth = true;
         $mail->Username = 'your-email@gmail.com'; // Your Gmail address
         $mail->Password = 'your-app-password'; // Your Gmail App Password
