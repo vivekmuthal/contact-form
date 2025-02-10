@@ -2,9 +2,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'includes/PHPMailer/PHPMailer.php';
-require 'includes/PHPMailer/Exception.php';
-require 'includes/PHPMailer/SMTP.php';
+require '../vendor/autoload.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -12,42 +10,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $number = $_POST['number'];
     $subject = $_POST['subject'];
     $message = $_POST['message'];
-    $option = $_POST['option'];
-    $terms = isset($_POST['terms']) ? 'Agreed' : 'Not Agreed';
-    $contact_pref = $_POST['contact_pref'];
-    
-    $mail = new PHPMailer(true);
+    $options = $_POST['options'];
+    $subscribe = isset($_POST['subscribe']) ? 'Yes' : 'No';
+    $contact_method = $_POST['contact_method'];
 
+    $mail = new PHPMailer(true);
     try {
-        // Server settings
         $mail->isSMTP();
-        $mail->Host = 'contact-mail-form.netlify.app/';
+        $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'your-email@gmail.com'; // Your Gmail address
-        $mail->Password = 'your-app-password'; // Your Gmail App Password
+        $mail->Username = 'your-email@gmail.com';
+        $mail->Password = 'your-password';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        // Recipients
         $mail->setFrom($email, $name);
-        $mail->addAddress('recipient-email@gmail.com'); // Change to your recipient email
-
-        // Content
-        $mail->isHTML(true);
+        $mail->addAddress('your-email@gmail.com');
         $mail->Subject = $subject;
-        $mail->Body    = "<h4>Name: $name</h4>
-                         <p>Email: $email</p>
-                         <p>Phone: $number</p>
-                         <p>Subject: $subject</p>
-                         <p>Message: $message</p>
-                         <p>Option: $option</p>
-                         <p>Terms: $terms</p>
-                         <p>Contact Preference: $contact_pref</p>";
-        
+        $mail->Body = "Name: $name\nEmail: $email\nNumber: $number\nMessage: $message\nOption: $options\nSubscribe: $subscribe\nPreferred Contact Method: $contact_method";
+
         $mail->send();
-        echo "<script>alert('Message has been sent successfully!'); window.location.href='index.html';</script>";
+        echo "Message sent successfully!";
     } catch (Exception $e) {
-        echo "<script>alert('Message could not be sent. Error: {$mail->ErrorInfo}'); window.location.href='index.html';</script>";
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
 ?>
